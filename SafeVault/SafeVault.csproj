@@ -7,9 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.24" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.24" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.24" />
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.24" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.25" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.24">
         <PrivateAssets>all</PrivateAssets>
@@ -23,7 +25,13 @@
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
       <PackageReference Include="NUnit" Version="4.5.1" />
       <PackageReference Include="NUnit3TestAdapter" Version="6.1.0" />
+      <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.16.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Shared\Login.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Register.cshtml" />
     </ItemGroup>
 
 </Project>

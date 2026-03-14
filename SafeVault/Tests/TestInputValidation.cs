@@ -13,11 +13,11 @@ public class TestInputValidation
         bool isValid = ValidationHelpers.IsValidInput(input, new List<char>() { '!' });
         if (isValid)
         {
-            Assert.Pass();
+            Assert.Fail();
         }
         else
         {
-            Assert.Fail();
+            Assert.Pass();
         }
     }
 
@@ -28,11 +28,11 @@ public class TestInputValidation
         bool isValid = ValidationHelpers.IsValidSqlInjectionInput(input);
         if (isValid)
         {
-            Assert.Pass();
+            Assert.Fail();
         }
         else
         {
-            Assert.Fail();
+            Assert.Pass();
         }
     }
 
@@ -43,11 +43,11 @@ public class TestInputValidation
         bool isValid = ValidationHelpers.IsValidXssInput(input);
         if (isValid)
         {
-            Assert.Pass();
+            Assert.Fail();
         }
         else
         {
-            Assert.Fail();
+            Assert.Pass();
         }
     }
 }

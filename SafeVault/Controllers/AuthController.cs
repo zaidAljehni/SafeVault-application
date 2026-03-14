@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SafeVault.Models;
@@ -7,7 +8,7 @@ using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace SafeVault.Controllers;
 
-public class AuthController : Controller
+public class AuthController : ControllerBase
 {
     private UserManager<IdentityUser> _userManager;
     private SignInManager<IdentityUser> _signInManager;
@@ -30,18 +31,6 @@ public class AuthController : Controller
         {
             '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '?', '\\', '/', '|'
         };
-    }
-
-    [HttpGet]
-    public IActionResult Register()
-    {
-        return View();
-    }
-
-    [HttpGet]
-    public IActionResult Login()
-    {
-        return View();
     }
 
     [HttpPost]
@@ -68,6 +57,12 @@ public class AuthController : Controller
             UserName = dto.Email,
         };
         IdentityResult result = await this._userManager.CreateAsync(user, dto.Password);
+        if (!result.Succeeded)
+        {
+            return UnprocessableEntity(result.Errors);
+        }
+
+        result = await this._userManager.AddToRoleAsync(user, dto.role);
         if (result.Succeeded)
         {
             return Created($"/auth/details/{user.Id}", user);
@@ -84,22 +79,14 @@ public class AuthController : Controller
             return UnprocessableEntity();
         }
 
-        SignInResult result = await this._signInManager.PasswordSignInAsync(dto.Email, dto.Password, true, false);
-        if (result.Succeeded)
+        if (!this._sanitizeInput(dto.Email, false))
         {
-            IdentityUser user = await this._userManager.FindByEmailAsync(dto.Email);
-            return Ok(user);
+            return UnprocessableEntity("Invalid characters in email");
         }
 
-        return Unauthorized();
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Loginjwt([FromBody] LoginDto dto)
-    {
-        if (!ModelState.IsValid)
+        if (!this._sanitizeInput(dto.Password, true))
         {
-            return UnprocessableEntity();
+            return UnprocessableEntity("Invalid characters in password");
         }
 
         SignInResult result = await this._signInManager.PasswordSignInAsync(dto.Email, dto.Password, true, false);
@@ -114,11 +101,18 @@ public class AuthController : Controller
         return Unauthorized("Invalid credentials");
     }
 
-    protected bool _sanitizeInput(string input, bool WithAllowedSpecialCharacters = false)
+    [Authorize]
+    public async Task<IActionResult> Logout(IdentityUser user)
+    {
+        await this._signInManager.SignOutAsync();
+        return Ok("Signed out successfully");
+    }
+
+    protected bool _sanitizeInput(string input, bool allowSpecialCharacters)
     {
         return ValidationHelpers.IsValidInput(
                    input,
-                   WithAllowedSpecialCharacters ? this._allowedSpecialCharacters : []
+                   allowSpecialCharacters ? this._allowedSpecialCharacters : []
                ) &&
                ValidationHelpers.IsValidXssInput(input) &&
                ValidationHelpers.IsValidSqlInjectionInput(input);
