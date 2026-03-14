@@ -7,9 +7,23 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-      <Folder Include="Models\" />
-      <Folder Include="Views\Shared\" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.24" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.24" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.24" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.25" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.24">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.24">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.16.0" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
+      <PackageReference Include="NUnit" Version="4.5.1" />
+      <PackageReference Include="NUnit3TestAdapter" Version="6.1.0" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.16.0" />
     </ItemGroup>
 
 </Project>
