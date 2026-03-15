@@ -15,6 +15,7 @@ public class AuthController : ControllerBase
     private RoleManager<IdentityRole> _roleManager;
     private TokenService _tokenService;
     private List<char> _allowedSpecialCharacters;
+    private List<char> _emailAllowedSpecialCharacters;
 
     public AuthController(
         UserManager<IdentityUser> userManager,
@@ -29,7 +30,11 @@ public class AuthController : ControllerBase
         this._tokenService = tokenService;
         this._allowedSpecialCharacters = new List<char>()
         {
-            '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '?', '\\', '/', '|'
+            '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '?', '\\', '/', '|', '.'
+        };
+        this._emailAllowedSpecialCharacters = new List<char>()
+        {
+            '@', '-', '_', '+', '.'
         };
     }
 
@@ -41,12 +46,12 @@ public class AuthController : ControllerBase
             return UnprocessableEntity("Invalid register data");
         }
 
-        if (!this._sanitizeInput(dto.Email, false))
+        if (!this._sanitizeInput(dto.Email, this._emailAllowedSpecialCharacters))
         {
             return UnprocessableEntity("Invalid characters in email");
         }
 
-        if (!this._sanitizeInput(dto.Password, true))
+        if (!this._sanitizeInput(dto.Password, this._allowedSpecialCharacters))
         {
             return UnprocessableEntity("Invalid characters in password");
         }
@@ -65,7 +70,7 @@ public class AuthController : ControllerBase
         result = await this._userManager.AddToRoleAsync(user, dto.role);
         if (result.Succeeded)
         {
-            return Created($"/auth/details/{user.Id}", user);
+            return Created($"/auth/details", user);
         }
 
         return UnprocessableEntity(result.Errors);
@@ -79,12 +84,12 @@ public class AuthController : ControllerBase
             return UnprocessableEntity();
         }
 
-        if (!this._sanitizeInput(dto.Email, false))
+        if (!this._sanitizeInput(dto.Email, this._emailAllowedSpecialCharacters))
         {
             return UnprocessableEntity("Invalid characters in email");
         }
 
-        if (!this._sanitizeInput(dto.Password, true))
+        if (!this._sanitizeInput(dto.Password, this._allowedSpecialCharacters))
         {
             return UnprocessableEntity("Invalid characters in password");
         }
@@ -101,6 +106,15 @@ public class AuthController : ControllerBase
         return Unauthorized("Invalid credentials");
     }
 
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> Details()
+    {
+        var user = User.Identity;
+        IdentityUser? currentUser = await this._userManager.FindByNameAsync(user.Name);
+        return Ok(currentUser);
+    }
+
     [Authorize]
     public async Task<IActionResult> Logout(IdentityUser user)
     {
@@ -108,12 +122,9 @@ public class AuthController : ControllerBase
         return Ok("Signed out successfully");
     }
 
-    protected bool _sanitizeInput(string input, bool allowSpecialCharacters)
+    protected bool _sanitizeInput(string input, List<char> allowSpecialCharacters)
     {
-        return ValidationHelpers.IsValidInput(
-                   input,
-                   allowSpecialCharacters ? this._allowedSpecialCharacters : []
-               ) &&
+        return ValidationHelpers.IsValidInput(input, allowSpecialCharacters) &&
                ValidationHelpers.IsValidXssInput(input) &&
                ValidationHelpers.IsValidSqlInjectionInput(input);
     }
