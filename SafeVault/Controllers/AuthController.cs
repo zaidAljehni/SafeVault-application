@@ -70,7 +70,7 @@ public class AuthController : ControllerBase
         result = await this._userManager.AddToRoleAsync(user, dto.role);
         if (result.Succeeded)
         {
-            return Created($"/auth/details", user);
+            return Created();
         }
 
         return UnprocessableEntity(result.Errors);

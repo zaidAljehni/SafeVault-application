@@ -52,7 +52,7 @@ public class RoleController : ControllerBase
         var result = await this._roleManager.CreateAsync(role);
         if (result.Succeeded)
         {
-            return Created($"/role/details/{role.Name}", role);
+            return Created();
         }
 
         return UnprocessableEntity();
