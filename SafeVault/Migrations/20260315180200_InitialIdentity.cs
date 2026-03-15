@@ -70,7 +70,7 @@ namespace SafeVault.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Department",
+                name: "Departments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -80,7 +80,7 @@ namespace SafeVault.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Department", x => x.Id);
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -268,7 +268,7 @@ namespace SafeVault.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Department");
+                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

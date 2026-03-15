@@ -7,7 +7,7 @@ namespace SafeVault.Data;
 public class AppDbContext : IdentityDbContext
 {
     private IConfiguration _configuration;
-    public List<Department> Departments { get; set; }
+    public DbSet<Department> Departments { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : base(options)
     {

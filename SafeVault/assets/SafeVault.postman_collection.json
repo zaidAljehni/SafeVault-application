@@ -1,0 +1,468 @@
+{
+	"info": {
+		"_postman_id": "0cedc986-a1cc-40a3-bfae-0cf2973fec03",
+		"name": "SafeVault",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29868104"
+	},
+	"item": [
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/role/index?limit=3&offset=0",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"role",
+								"index"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3",
+									"description": "Optional - Integer - Default 3"
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "Optional - Integer - Default 0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/role/details?name=admin",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"role",
+								"details"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "admin"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Name\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/role/create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"role",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Email\": \"admin1@gmail.com\",\n    \"EmailConfirm\": \"admin1@gmail.com\",\n    \"Password\": \"asdfQWER!@#$12345678\",\n    \"Role\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Email\": \"user-1@gmail.com\",\n    \"Password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/auth/details",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/auth/logout",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Admin route",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dashboard/admin",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dashboard",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Manager route",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dashboard/manager",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dashboard",
+								"manager"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticated user route",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dashboard/employee",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dashboard",
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Guest route",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dashboard/guest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dashboard",
+								"guest"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Department",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/department/index?limit=3&offset=0",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"department",
+								"index"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3",
+									"description": "Optional - Integer - Default 3"
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "Optional - Integer - Default 0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/department/details?id=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"department",
+								"details"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Required - Integer"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Name\": \"department-1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/department/create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"department",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Name\": \"department-1 updated\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/department/update?id=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"department",
+								"update"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Required - Integer"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/department/delete?id=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"department",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Required - Integer"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

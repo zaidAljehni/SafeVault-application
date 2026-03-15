@@ -16,20 +16,18 @@ public class DepartmentController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize(policy: AuthConstants.ManagerPolicy)]
-    [Authorize(policy: AuthConstants.AdminPolicy)]
+    [Authorize]
     public IActionResult Index(int limit = 3, int offset = 0)
     {
-        List<Department> departments = _context.Departments.Take(limit).Skip(offset).ToList();
+        List<Department> departments = this._context.Departments.Skip(offset).Take(limit).ToList();
         return Ok(departments);
     }
 
     [HttpGet]
-    [Authorize(policy: AuthConstants.ManagerPolicy)]
-    [Authorize(policy: AuthConstants.AdminPolicy)]
+    [Authorize]
     public IActionResult Details(int id)
     {
-        Department? department = _context.Departments.Find(task => task.Id == id);
+        Department? department = _context.Departments.ToList().Find(task => task.Id == id);
         if (department == null)
         {
             return NotFound("Department not found");
@@ -53,9 +51,9 @@ public class DepartmentController : ControllerBase
 
     [HttpPut]
     [Authorize(policy: AuthConstants.AdminPolicy)]
-    public IActionResult Update(int id, Department dto)
+    public IActionResult Update(int id, [FromBody] Department dto)
     {
-        Department? existingDepartment = _context.Departments.Find(d => d.Id == id);
+        Department? existingDepartment = _context.Departments.ToList().Find(d => d.Id == id);
         if (existingDepartment == null)
         {
             return NotFound($"Department [{id}] not found");
@@ -75,7 +73,7 @@ public class DepartmentController : ControllerBase
     [Authorize(policy: AuthConstants.AdminPolicy)]
     public IActionResult Delete(int id)
     {
-        Department? department = _context.Departments.Find(d => d.Id == id);
+        Department? department = _context.Departments.ToList().Find(d => d.Id == id);
         if (department == null)
         {
             return NotFound($"Department [{id}] not found");
